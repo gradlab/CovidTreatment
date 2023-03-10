@@ -40,15 +40,15 @@ txdatlist <- txdat %>%
 # Generate output 
 # =============================================================================
 
-fig_allmax_rawreduction <- plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, ascertainment=0.6, drug="nirmat", endpt="inpatientCovid"))
-fig_allmax_pctreduction <- plot_outcomes_cf_pct(get_outcomes_cf_allmax(epidatlist, txdatlist, ascertainment=0.6, drug="nirmat", endpt="inpatientCovid"))
+fig_allmax_rawreduction <- plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.8, drug="nirmat", endpt="inpatientCovid"))
+fig_allmax_pctreduction <- plot_outcomes_cf_pct(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.8, drug="nirmat", endpt="inpatientCovid"))
 
-fig_redist_rawreduction <- plot_outcomes_cf(get_outcomes_cf_redist(epidatlist, txdatlist, ascertainment=0.6, drug="nirmat", endpt="inpatientCovid"))
-fig_redist_pctreduction <- plot_outcomes_cf_pct(get_outcomes_cf_redist(epidatlist, txdatlist, ascertainment=0.6, drug="nirmat", endpt="inpatientCovid"))
+fig_redist_rawreduction <- plot_outcomes_cf(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.8, drug="nirmat", endpt="inpatientCovid"))
+fig_redist_pctreduction <- plot_outcomes_cf_pct(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.8, drug="nirmat", endpt="inpatientCovid"))
 
 
 
-plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, ascertainment=0.5, drug="nirmat", endpt="inpatientCovid"))
+plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.8, drug="nirmat", endpt="inpatientCovid"))
 
 
 

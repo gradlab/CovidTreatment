@@ -25,9 +25,9 @@ get_pout <- function(cases, ascertainment, treatments, TE, outcomes){
 }
 
 # What if everyone were treated at the highest per-case rate?
-get_outcomes_cf_allmax <- function(epidatlist, txdatlist, ascertainment=0.6, drug="nirmat",endpt="inpatientCovid"){
+get_outcomes_cf_allmax <- function(epidatlist, txdatlist, TE=0.8, drug="nirmat",endpt="inpatientCovid"){
 
-	TEvec <- seq(from=0, to=1, by=0.02) 
+	ascvec <- seq(from=0.2, to=0.8, by=0.02) 
 	outcomes_cf_df <- tibble()
 
 	xi <- unlist(lapply(1:5, function(x){
@@ -40,16 +40,16 @@ get_outcomes_cf_allmax <- function(epidatlist, txdatlist, ascertainment=0.6, dru
 		out <- epidatlist[[myq]][[endpt]] 
 		return(out)}))
 
-	for(indexA in 1:length(TEvec)){
+	for(indexA in 1:length(ascvec)){
 
 		pout <- unlist(lapply(1:5, 
 			function(x){
 				myq <- paste0("q",x)
 				get_pout(
 					cases=epidatlist[[myq]]$covid22, 
-					ascertainment=ascertainment, 
+					ascertainment=ascvec[indexA], 
 					treatments=txdatlist[[myq]][[drug]],
-					TE=TEvec[indexA],
+					TE=TE,
 					outcomes=epidatlist[[myq]][[endpt]])
 			}))
 
@@ -58,22 +58,22 @@ get_outcomes_cf_allmax <- function(epidatlist, txdatlist, ascertainment=0.6, dru
 				myq <- paste0("q",x)
 				get_outcomes(
 					cases=epidatlist[[myq]]$covid22, 
-					ascertainment=ascertainment, 
+					ascertainment=ascvec[indexA], 
 					treatments=max(xi)*epidatlist[[myq]]$covid22,
 					poutcome=pout[x],
-					TE=TEvec[indexA])
+					TE=TE)
 			}))
 
 		outcomes_cf_df <- outcomes_cf_df %>% 
-			bind_rows(tibble(TE=TEvec[indexA],q=1:5,outcomes_cf=outcomes_cf))
+			bind_rows(tibble(ascertainment=ascvec[indexA],q=1:5,outcomes_cf=outcomes_cf))
 
 	}
 
 	outcomes_cf_df <- outcomes_cf_df %>% 
 		left_join(tibble(q=1:5, outcomes=outcomes), by="q") %>% 
 		mutate(q=as.character(q)) %>% 
-		split(.$TE) %>% 
-		map(~ bind_rows(., tibble(TE=.$TE[1], q="Total", outcomes_cf=sum(.$outcomes_cf), outcomes=sum(.$outcomes)))) %>% 
+		split(.$ascertainment) %>% 
+		map(~ bind_rows(., tibble(ascertainment=.$ascertainment[1], q="Total", outcomes_cf=sum(.$outcomes_cf), outcomes=sum(.$outcomes)))) %>% 
 		bind_rows() %>% 
 		mutate(diff=outcomes - outcomes_cf) %>% 
 		mutate(diff_pct = diff/outcomes*100)
@@ -84,10 +84,10 @@ get_outcomes_cf_allmax <- function(epidatlist, txdatlist, ascertainment=0.6, dru
 
 
 # What if we gave the same number of treatments, but allocated them better? 
-get_outcomes_cf_redist <- function(epidatlist, txdatlist, ascertainment=0.6, drug="nirmat",endpt="inpatientCovid"){
+get_outcomes_cf_redist <- function(epidatlist, txdatlist, TE=0.8, drug="nirmat",endpt="inpatientCovid"){
 
 
-	TEvec <- seq(from=0, to=1, by=0.02) 
+	ascvec <- seq(from=0.2, to=0.8, by=0.02) 
 	outcomes_cf_df <- tibble()
 
 	xi <- unlist(lapply(1:5, function(x){
@@ -105,16 +105,16 @@ get_outcomes_cf_redist <- function(epidatlist, txdatlist, ascertainment=0.6, dru
 		out <- epidatlist[[myq]][[endpt]] 
 		return(out)}))
 
-	for(indexA in 1:length(TEvec)){
+	for(indexA in 1:length(ascvec)){
 
 		pout <- unlist(lapply(1:5, 
 			function(x){
 				myq <- paste0("q",x)
 				get_pout(
 					cases=epidatlist[[myq]]$covid22, 
-					ascertainment=ascertainment, 
+					ascertainment=ascvec[indexA], 
 					treatments=txdatlist[[myq]][[drug]],
-					TE=TEvec[indexA],
+					TE=TE,
 					outcomes=epidatlist[[myq]][[endpt]])
 			}))
 
@@ -126,22 +126,22 @@ get_outcomes_cf_redist <- function(epidatlist, txdatlist, ascertainment=0.6, dru
 				myq <- paste0("q",x)
 				get_outcomes(
 					cases=epidatlist[[myq]]$covid22, 
-					ascertainment=ascertainment, 
+					ascertainment=ascvec[indexA], 
 					treatments=tx_cf[x],
 					poutcome=pout[x],
-					TE=TEvec[indexA])
+					TE=TE)
 			}))
 
 		outcomes_cf_df <- outcomes_cf_df %>% 
-			bind_rows(tibble(TE=TEvec[indexA],q=1:5,outcomes_cf=outcomes_cf))
+			bind_rows(tibble(ascertainment=ascvec[indexA],q=1:5,outcomes_cf=outcomes_cf))
 
 	}
 
 	outcomes_cf_df <- outcomes_cf_df %>% 
 		left_join(tibble(q=1:5, outcomes=outcomes), by="q") %>% 
 		mutate(q=as.character(q)) %>% 
-		split(.$TE) %>% 
-		map(~ bind_rows(., tibble(TE=.$TE[1], q="Total", outcomes_cf=sum(.$outcomes_cf), outcomes=sum(.$outcomes)))) %>% 
+		split(.$ascertainment) %>% 
+		map(~ bind_rows(., tibble(ascertainment=.$ascertainment[1], q="Total", outcomes_cf=sum(.$outcomes_cf), outcomes=sum(.$outcomes)))) %>% 
 		bind_rows() %>% 
 		mutate(diff=outcomes - outcomes_cf) %>% 
 		mutate(diff_pct = diff/outcomes*100)
@@ -153,24 +153,24 @@ get_outcomes_cf_redist <- function(epidatlist, txdatlist, ascertainment=0.6, dru
 
 plot_outcomes_cf <- function(outcomes_cf){
 	out <- outcomes_cf %>% 
-		ggplot(aes(x=TE, y=diff, col=factor(q), lty=factor(q))) + 
+		ggplot(aes(x=ascertainment, y=diff, col=factor(q), lty=factor(q))) + 
 			geom_line() + 
 			theme_classic() + 
 			scale_color_manual(values=c("cyan1","cyan2","cyan3","cyan4","dodgerblue3","black")) + 
 			scale_linetype_manual(values=c("solid","solid","solid","solid","solid","dashed"))  + 
-			labs(x="Treatment efficacy", y="Adverse events averted\nthrough treatment re-allocation", col="Risk quantile", lty="Risk quantile")
+			labs(x="Ascertainment rate", y="Adverse events averted\nthrough treatment re-allocation", col="Risk quantile", lty="Risk quantile")
 
 	return(out)
 }
 
 plot_outcomes_cf_pct <- function(outcomes_cf){
 	out <- outcomes_cf %>% 
-		ggplot(aes(x=TE, y=diff_pct, col=factor(q), lty=factor(q))) + 
+		ggplot(aes(x=ascertainment, y=diff_pct, col=factor(q), lty=factor(q))) + 
 			geom_line() + 
 			theme_classic() + 
 			scale_color_manual(values=c("cyan1","cyan2","cyan3","cyan4","dodgerblue3","black")) + 
 			scale_linetype_manual(values=c("solid","solid","solid","solid","solid","dashed"))  + 
-			labs(x="Treatment efficacy", y="Percent decrease in adverse events\nthrough treatment re-allocation", col="Risk quantile", lty="Risk quantile")
+			labs(x="Ascertainment rate", y="Percent decrease in adverse events\nthrough treatment re-allocation", col="Risk quantile", lty="Risk quantile")
 
 	return(out)
 }
