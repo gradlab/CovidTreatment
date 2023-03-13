@@ -158,7 +158,8 @@ plot_outcomes_cf <- function(outcomes_cf){
 			theme_classic() + 
 			scale_color_manual(values=c("cyan1","cyan2","cyan3","cyan4","dodgerblue3","black")) + 
 			scale_linetype_manual(values=c("solid","solid","solid","solid","solid","dashed"))  + 
-			labs(x="Ascertainment rate", y="Adverse events averted\nthrough treatment re-allocation", col="Risk quantile", lty="Risk quantile")
+			labs(x="Ascertainment rate", y="Adverse events averted\nthrough treatment re-allocation", col="Risk quantile", lty="Risk quantile") + 
+			theme(text=element_text(size=9))
 
 	return(out)
 }
@@ -170,7 +171,8 @@ plot_outcomes_cf_pct <- function(outcomes_cf){
 			theme_classic() + 
 			scale_color_manual(values=c("cyan1","cyan2","cyan3","cyan4","dodgerblue3","black")) + 
 			scale_linetype_manual(values=c("solid","solid","solid","solid","solid","dashed"))  + 
-			labs(x="Ascertainment rate", y="Percent decrease in adverse events\nthrough treatment re-allocation", col="Risk quantile", lty="Risk quantile")
+			labs(x="Ascertainment rate", y="Percent decrease in adverse events\nthrough treatment re-allocation", col="Risk quantile", lty="Risk quantile") + 
+			theme(text=element_text(size=9))
 
 	return(out)
 }
