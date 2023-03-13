@@ -32,7 +32,7 @@ txdatlist <- txdat %>%
 	map(~ map(., ~ pull(., count)))
 
 # =============================================================================
-# Generate output 
+# Generate figures
 # =============================================================================
 
 fig_allmax_rawreduction_hosp <- plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"Hospitalizations") #+ scale_y_continuous(limits=c(-5000,25000))
@@ -73,4 +73,73 @@ ggsave(fig_allmax_pctreduction_mort + theme(legend.position="none"), file="figur
 
 ggsave(fig_redist_pctreduction_mort + theme(legend.position="bottom"), file="figures/race/redist/mort/redist_pctreduction_mort_race.pdf", width=3.5, height=3.5/1.6, units="in")
 ggsave(fig_redist_pctreduction_mort + theme(legend.position="none"), file="figures/race/redist/mort/redist_pctreduction_mort_nolegend_race.pdf", width=3.5, height=3.5/1.6, units="in")
+
+# =============================================================================
+# Generate table 
+# =============================================================================
+
+hospdf_allmax <- get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid") %>% 
+	filter(ascertainment==0.5) %>% 
+	select(q, outcomes_cf, outcomes) %>% 
+	mutate(outcometag="Hospitalizations") %>% 
+	mutate(cftag="allmax") %>% 
+	mutate(outcomes=round(outcomes)) %>% 
+	mutate(outcomes_cf=round(outcomes_cf))
+
+hospdf_redist <- get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid") %>% 
+	filter(ascertainment==0.5) %>% 
+	select(q, outcomes_cf, outcomes) %>% 
+	mutate(outcometag="Hospitalizations") %>% 
+	mutate(cftag="redist") %>% 
+	mutate(outcomes=round(outcomes)) %>% 
+	mutate(outcomes_cf=round(outcomes_cf))
+
+mortdf_allmax <- get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="covidDeath") %>% 
+	filter(ascertainment==0.5) %>% 
+	select(q, outcomes_cf, outcomes) %>% 
+	mutate(outcometag="Mortality") %>% 
+	mutate(cftag="allmax") %>% 
+	mutate(outcomes=round(outcomes)) %>% 
+	mutate(outcomes_cf=round(outcomes_cf))
+
+mortdf_redist <- get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="covidDeath") %>% 
+	filter(ascertainment==0.5) %>% 
+	select(q, outcomes_cf, outcomes) %>% 
+	mutate(outcometag="Mortality") %>% 
+	mutate(cftag="redist") %>% 
+	mutate(outcomes=round(outcomes)) %>% 
+	mutate(outcomes_cf=round(outcomes_cf))
+
+
+
+hospdf_combined <- hospdf_allmax %>% 
+	select(q,outcomes_cf,outcomes) %>% 
+	rename("Hosp (all-max)"=outcomes_cf) %>% 
+	rename("Hosp (obs)" = outcomes) %>% 
+	left_join(select(hospdf_redist,q,`Hosp (redist)`=outcomes_cf), by="q") %>% 
+	select(q, `Hosp (obs)`, `Hosp (all-max)`, `Hosp (redist)`)
+
+mortdf_combined <- mortdf_allmax %>% 
+	select(q,outcomes_cf,outcomes) %>% 
+	rename("Mort (all-max)"=outcomes_cf) %>% 
+	rename("Mort (obs)" = outcomes) %>% 
+	left_join(select(mortdf_redist,q,`Mort (redist)`=outcomes_cf), by="q") %>% 
+	select(q, `Mort (obs)`, `Mort (all-max)`, `Mort (redist)`)
+
+
+table1 <- left_join(hospdf_combined, mortdf_combined, by="q")
+
+write_csv(table1, "output/table1.csv")
+
+
+
+
+
+
+
+
+
+
+
+
 
