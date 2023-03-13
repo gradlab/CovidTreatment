@@ -35,11 +35,19 @@ txdatlist <- txdat %>%
 # Generate figures
 # =============================================================================
 
-fig_allmax_rawreduction_hosp <- plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"Hospitalizations") #+ scale_y_continuous(limits=c(-5000,25000))
-fig_allmax_pctreduction_hosp <- plot_outcomes_cf_pct(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"hospitalizations")# + scale_y_continuous(limits=c(-5,20))
+fig_allmax_rawreduction_hosp <- plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"Hospitalizations") +  #+ scale_y_continuous(limits=c(-5000,25000))
+	scale_color_manual(values=c("red","blue","green","orange","magenta","black"))
 
-fig_redist_rawreduction_hosp <- plot_outcomes_cf(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"Hospitalizations") #+ scale_y_continuous(limits=c(-5000,25000))
-fig_redist_pctreduction_hosp <- plot_outcomes_cf_pct(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"hospitalizations")# + scale_y_continuous(limits=c(-5,20))
+fig_allmax_pctreduction_hosp <- plot_outcomes_cf_pct(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"hospitalizations") + # + scale_y_continuous(limits=c(-5,20))
+	scale_color_manual(values=c("red","blue","green","orange","magenta","black"))
+
+
+fig_redist_rawreduction_hosp <- plot_outcomes_cf(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"Hospitalizations") +  #+ scale_y_continuous(limits=c(-5000,25000))
+	scale_color_manual(values=c("red","blue","green","orange","magenta","black"))
+
+fig_redist_pctreduction_hosp <- plot_outcomes_cf_pct(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"hospitalizations") + # + scale_y_continuous(limits=c(-5,20))
+	scale_color_manual(values=c("red","blue","green","orange","magenta","black"))
+
 
 ggsave(fig_allmax_rawreduction_hosp + theme(legend.position="bottom"), file="figures/race/allmax/hosp/allmax_rawreduction_hosp_race.pdf", width=3.5, height=3.5/1.6, units="in")
 ggsave(fig_allmax_rawreduction_hosp + theme(legend.position="none"), file="figures/race/allmax/hosp/allmax_rawreduction_hosp_nolegend_race.pdf", width=3.5, height=3.5/1.6, units="in")
@@ -55,11 +63,19 @@ ggsave(fig_redist_pctreduction_hosp + theme(legend.position="bottom"), file="fig
 ggsave(fig_redist_pctreduction_hosp + theme(legend.position="none"), file="figures/race/redist/hosp/redist_pctreduction_hosp_nolegend_race.pdf", width=3.5, height=3.5/1.6, units="in")
 
 
-fig_allmax_rawreduction_mort <- plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"),"Mortality") #+ scale_y_continuous(limits=c(-5000,25000))
-fig_allmax_pctreduction_mort <- plot_outcomes_cf_pct(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"),"mortality")# + scale_y_continuous(limits=c(-5,20))
+fig_allmax_rawreduction_mort <- plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"),"Mortality") +  #+ scale_y_continuous(limits=c(-5000,25000))
+	scale_color_manual(values=c("red","blue","green","orange","magenta","black"))
 
-fig_redist_rawreduction_mort <- plot_outcomes_cf(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"),"Mortality") #+ scale_y_continuous(limits=c(-5000,25000))
-fig_redist_pctreduction_mort <- plot_outcomes_cf_pct(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"),"mortality")# + scale_y_continuous(limits=c(-5,20))
+fig_allmax_pctreduction_mort <- plot_outcomes_cf_pct(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"),"mortality") + # + scale_y_continuous(limits=c(-5,20))
+	scale_color_manual(values=c("red","blue","green","orange","magenta","black"))
+
+
+fig_redist_rawreduction_mort <- plot_outcomes_cf(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"),"Mortality") +  #+ scale_y_continuous(limits=c(-5000,25000))
+	scale_color_manual(values=c("red","blue","green","orange","magenta","black"))
+
+fig_redist_pctreduction_mort <- plot_outcomes_cf_pct(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"),"mortality") + # + scale_y_continuous(limits=c(-5,20))
+	scale_color_manual(values=c("red","blue","green","orange","magenta","black"))
+
 
 ggsave(fig_allmax_rawreduction_mort + theme(legend.position="bottom"), file="figures/race/allmax/mort/allmax_rawreduction_mort_race.pdf", width=3.5, height=3.5/1.6, units="in")
 ggsave(fig_allmax_rawreduction_mort + theme(legend.position="none"), file="figures/race/allmax/mort/allmax_rawreduction_mort_nolegend_race.pdf", width=3.5, height=3.5/1.6, units="in")
