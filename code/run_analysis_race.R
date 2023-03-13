@@ -5,34 +5,29 @@
 library(tidyverse) 
 source('code/utils.R')
 
-rawdat <- read_csv("data/covid_risk_quintile_data_030623.csv") %>% 
-	rename(quintile=`risk quintile`) %>% 
+rawdat <- read_csv("data/covid_race_data_031023.csv") %>% 
 	rename(nbene=total) %>% 
 	rename(anyDrug=hadAnyDrug) 
 
 epidat <- rawdat %>% 
-	select(quintile, nbene, covid22, inpatientCovid, inpatientOther, died, covidDeath) %>% 
-	group_by(quintile,nbene) %>% 
+	select(race, nbene, covid22, inpatientCovid, inpatientOther, died, covidDeath) %>% 
+	group_by(race,nbene) %>% 
 	pivot_longer(c("covid22", "inpatientCovid", "inpatientOther", "died", "covidDeath"),names_to="metric",values_to="cases") %>% 
-	select(quintile, metric, cases, nbene) 
+	select(race, metric, cases, nbene) 
 
 txdat <- rawdat %>% 
-	select(quintile, nbene, anyDrug, bamlan, casiri, sotrov, bebtel, remdes, nirmat, molnup) %>% 
-	group_by(quintile, nbene) %>% 
+	select(race, nbene, anyDrug, bamlan, casiri, sotrov, bebtel, remdes, nirmat, molnup) %>% 
+	group_by(race, nbene) %>% 
 	pivot_longer(c("anyDrug", "bamlan", "casiri", "sotrov", "bebtel", "remdes", "nirmat", "molnup"),names_to="drug",values_to="count") %>% 
-	select(quintile, drug, count, nbene) 
+	select(race, drug, count, nbene) 
 
 epidatlist <- epidat %>% 
-	mutate(quintile=as.character(quintile)) %>% 
-	mutate(quintile=paste0("q",quintile)) %>% 
-	split(.$quintile) %>% 
+	split(.$race) %>% 
 	map(~ split(., .$metric)) %>% 
 	map(~ map(., ~ pull(., cases)))
 
 txdatlist <- txdat %>% 
-	mutate(quintile=as.character(quintile)) %>% 
-	mutate(quintile=paste0("q",quintile)) %>% 
-	split(.$quintile) %>% 
+	split(.$race) %>% 
 	map(~ split(., .$drug)) %>% 
 	map(~ map(., ~ pull(., count)))
 
