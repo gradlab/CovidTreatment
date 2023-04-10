@@ -37,45 +37,89 @@ txdatlist <- txdat %>%
 	map(~ map(., ~ pull(., count)))
 
 # =============================================================================
-# Generate output 
+# Generate output for nirmat
 # =============================================================================
 
-fig_allmax_rawreduction_hosp <- plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"Hospitalizations") #+ scale_y_continuous(limits=c(-5000,25000))
-fig_allmax_pctreduction_hosp <- plot_outcomes_cf_pct(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"hospitalizations")# + scale_y_continuous(limits=c(-5,20))
+fig_allmax_rawreduction_hosp <- plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"Hospitalizations")
+fig_allmax_pctreduction_hosp <- plot_outcomes_cf_pct(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"hospitalizations")
 
-fig_redist_rawreduction_hosp <- plot_outcomes_cf(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"Hospitalizations") #+ scale_y_continuous(limits=c(-5000,25000))
-fig_redist_pctreduction_hosp <- plot_outcomes_cf_pct(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"hospitalizations")# + scale_y_continuous(limits=c(-5,20))
+fig_redist_rawreduction_hosp <- plot_outcomes_cf(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"Hospitalizations") 
+fig_redist_pctreduction_hosp <- plot_outcomes_cf_pct(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.4, drug="nirmat", endpt="inpatientCovid"),"hospitalizations")
 
-ggsave(fig_allmax_rawreduction_hosp + theme(legend.position="bottom"), file="figures/risk/allmax/hosp/allmax_rawreduction_hosp_risk.pdf", width=3.5, height=3.5/1.6, units="in")
-ggsave(fig_allmax_rawreduction_hosp + theme(legend.position="none"), file="figures/risk/allmax/hosp/allmax_rawreduction_hosp_nolegend_risk.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_allmax_rawreduction_hosp + theme(legend.position="bottom"), file="figures/risk_nirmat/allmax/hosp/allmax_rawreduction_hosp_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_allmax_rawreduction_hosp + theme(legend.position="none"), file="figures/risk_nirmat/allmax/hosp/allmax_rawreduction_hosp_nolegend_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
 
-ggsave(fig_redist_rawreduction_hosp + theme(legend.position="bottom"), file="figures/risk/redist/hosp/redist_rawreduction_hosp_risk.pdf", width=3.5, height=3.5/1.6, units="in")
-ggsave(fig_redist_rawreduction_hosp + theme(legend.position="none"), file="figures/risk/redist/hosp/redist_rawreduction_hosp_nolegend_risk.pdf", width=3.5, height=3.5/1.6, units="in")
-
-
-ggsave(fig_allmax_pctreduction_hosp + theme(legend.position="bottom"), file="figures/risk/allmax/hosp/allmax_pctreduction_hosp_risk.pdf", width=3.5, height=3.5/1.6, units="in")
-ggsave(fig_allmax_pctreduction_hosp + theme(legend.position="none"), file="figures/risk/allmax/hosp/allmax_pctreduction_hosp_nolegend_risk.pdf", width=3.5, height=3.5/1.6, units="in")
-
-ggsave(fig_redist_pctreduction_hosp + theme(legend.position="bottom"), file="figures/risk/redist/hosp/redist_pctreduction_hosp_risk.pdf", width=3.5, height=3.5/1.6, units="in")
-ggsave(fig_redist_pctreduction_hosp + theme(legend.position="none"), file="figures/risk/redist/hosp/redist_pctreduction_hosp_nolegend_risk.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_redist_rawreduction_hosp + theme(legend.position="bottom"), file="figures/risk_nirmat/redist/hosp/redist_rawreduction_hosp_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_redist_rawreduction_hosp + theme(legend.position="none"), file="figures/risk_nirmat/redist/hosp/redist_rawreduction_hosp_nolegend_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
 
 
-fig_allmax_rawreduction_mort <- plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"), "Mortality") #+ scale_y_continuous(limits=c(-5000,25000))
-fig_allmax_pctreduction_mort <- plot_outcomes_cf_pct(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"), "mortality")# + scale_y_continuous(limits=c(-5,20))
+ggsave(fig_allmax_pctreduction_hosp + theme(legend.position="bottom"), file="figures/risk_nirmat/allmax/hosp/allmax_pctreduction_hosp_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_allmax_pctreduction_hosp + theme(legend.position="none"), file="figures/risk_nirmat/allmax/hosp/allmax_pctreduction_hosp_nolegend_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
 
-fig_redist_rawreduction_mort <- plot_outcomes_cf(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"), "Mortality") #+ scale_y_continuous(limits=c(-5000,25000))
-fig_redist_pctreduction_mort <- plot_outcomes_cf_pct(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"), "mortality")# + scale_y_continuous(limits=c(-5,20))
-
-ggsave(fig_allmax_rawreduction_mort + theme(legend.position="bottom"), file="figures/risk/allmax/mort/allmax_rawreduction_mort_risk.pdf", width=3.5, height=3.5/1.6, units="in")
-ggsave(fig_allmax_rawreduction_mort + theme(legend.position="none"), file="figures/risk/allmax/mort/allmax_rawreduction_mort_nolegend_risk.pdf", width=3.5, height=3.5/1.6, units="in")
-
-ggsave(fig_redist_rawreduction_mort + theme(legend.position="bottom"), file="figures/risk/redist/mort/redist_rawreduction_mort_risk.pdf", width=3.5, height=3.5/1.6, units="in")
-ggsave(fig_redist_rawreduction_mort + theme(legend.position="none"), file="figures/risk/redist/mort/redist_rawreduction_mort_nolegend_risk.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_redist_pctreduction_hosp + theme(legend.position="bottom"), file="figures/risk_nirmat/redist/hosp/redist_pctreduction_hosp_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_redist_pctreduction_hosp + theme(legend.position="none"), file="figures/risk_nirmat/redist/hosp/redist_pctreduction_hosp_nolegend_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
 
 
-ggsave(fig_allmax_pctreduction_mort + theme(legend.position="bottom"), file="figures/risk/allmax/mort/allmax_pctreduction_mort_risk.pdf", width=3.5, height=3.5/1.6, units="in")
-ggsave(fig_allmax_pctreduction_mort + theme(legend.position="none"), file="figures/risk/allmax/mort/allmax_pctreduction_mort_nolegend_risk.pdf", width=3.5, height=3.5/1.6, units="in")
+fig_allmax_rawreduction_mort <- plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"), "Mortality") 
+fig_allmax_pctreduction_mort <- plot_outcomes_cf_pct(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"), "mortality")
 
-ggsave(fig_redist_pctreduction_mort + theme(legend.position="bottom"), file="figures/risk/redist/mort/redist_pctreduction_mort_risk.pdf", width=3.5, height=3.5/1.6, units="in")
-ggsave(fig_redist_pctreduction_mort + theme(legend.position="none"), file="figures/risk/redist/mort/redist_pctreduction_mort_nolegend_risk.pdf", width=3.5, height=3.5/1.6, units="in")
+fig_redist_rawreduction_mort <- plot_outcomes_cf(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"), "Mortality") 
+fig_redist_pctreduction_mort <- plot_outcomes_cf_pct(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.7, drug="nirmat", endpt="covidDeath"), "mortality")
+
+ggsave(fig_allmax_rawreduction_mort + theme(legend.position="bottom"), file="figures/risk_nirmat/allmax/mort/allmax_rawreduction_mort_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_allmax_rawreduction_mort + theme(legend.position="none"), file="figures/risk_nirmat/allmax/mort/allmax_rawreduction_mort_nolegend_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
+
+ggsave(fig_redist_rawreduction_mort + theme(legend.position="bottom"), file="figures/risk_nirmat/redist/mort/redist_rawreduction_mort_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_redist_rawreduction_mort + theme(legend.position="none"), file="figures/risk_nirmat/redist/mort/redist_rawreduction_mort_nolegend_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
+
+
+ggsave(fig_allmax_pctreduction_mort + theme(legend.position="bottom"), file="figures/risk_nirmat/allmax/mort/allmax_pctreduction_mort_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_allmax_pctreduction_mort + theme(legend.position="none"), file="figures/risk_nirmat/allmax/mort/allmax_pctreduction_mort_nolegend_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
+
+ggsave(fig_redist_pctreduction_mort + theme(legend.position="bottom"), file="figures/risk_nirmat/redist/mort/redist_pctreduction_mort_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_redist_pctreduction_mort + theme(legend.position="none"), file="figures/risk_nirmat/redist/mort/redist_pctreduction_mort_nolegend_risk_nirmat.pdf", width=3.5, height=3.5/1.6, units="in")
+
+# =============================================================================
+# Generate output for molnup
+# =============================================================================
+
+
+fig_allmax_rawreduction_hosp <- plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.4, drug="molnup", endpt="inpatientCovid"),"Hospitalizations")
+fig_allmax_pctreduction_hosp <- plot_outcomes_cf_pct(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.4, drug="molnup", endpt="inpatientCovid"),"hospitalizations")
+
+fig_redist_rawreduction_hosp <- plot_outcomes_cf(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.4, drug="molnup", endpt="inpatientCovid"),"Hospitalizations") 
+fig_redist_pctreduction_hosp <- plot_outcomes_cf_pct(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.4, drug="molnup", endpt="inpatientCovid"),"hospitalizations")
+
+ggsave(fig_allmax_rawreduction_hosp + theme(legend.position="bottom"), file="figures/risk_molnup/allmax/hosp/allmax_rawreduction_hosp_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_allmax_rawreduction_hosp + theme(legend.position="none"), file="figures/risk_molnup/allmax/hosp/allmax_rawreduction_hosp_nolegend_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+
+ggsave(fig_redist_rawreduction_hosp + theme(legend.position="bottom"), file="figures/risk_molnup/redist/hosp/redist_rawreduction_hosp_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_redist_rawreduction_hosp + theme(legend.position="none"), file="figures/risk_molnup/redist/hosp/redist_rawreduction_hosp_nolegend_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+
+
+ggsave(fig_allmax_pctreduction_hosp + theme(legend.position="bottom"), file="figures/risk_molnup/allmax/hosp/allmax_pctreduction_hosp_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_allmax_pctreduction_hosp + theme(legend.position="none"), file="figures/risk_molnup/allmax/hosp/allmax_pctreduction_hosp_nolegend_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+
+ggsave(fig_redist_pctreduction_hosp + theme(legend.position="bottom"), file="figures/risk_molnup/redist/hosp/redist_pctreduction_hosp_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_redist_pctreduction_hosp + theme(legend.position="none"), file="figures/risk_molnup/redist/hosp/redist_pctreduction_hosp_nolegend_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+
+
+fig_allmax_rawreduction_mort <- plot_outcomes_cf(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.7, drug="molnup", endpt="covidDeath"), "Mortality") 
+fig_allmax_pctreduction_mort <- plot_outcomes_cf_pct(get_outcomes_cf_allmax(epidatlist, txdatlist, TE=0.7, drug="molnup", endpt="covidDeath"), "mortality")
+
+fig_redist_rawreduction_mort <- plot_outcomes_cf(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.7, drug="molnup", endpt="covidDeath"), "Mortality") 
+fig_redist_pctreduction_mort <- plot_outcomes_cf_pct(get_outcomes_cf_redist(epidatlist, txdatlist, TE=0.7, drug="molnup", endpt="covidDeath"), "mortality")
+
+ggsave(fig_allmax_rawreduction_mort + theme(legend.position="bottom"), file="figures/risk_molnup/allmax/mort/allmax_rawreduction_mort_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_allmax_rawreduction_mort + theme(legend.position="none"), file="figures/risk_molnup/allmax/mort/allmax_rawreduction_mort_nolegend_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+
+ggsave(fig_redist_rawreduction_mort + theme(legend.position="bottom"), file="figures/risk_molnup/redist/mort/redist_rawreduction_mort_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_redist_rawreduction_mort + theme(legend.position="none"), file="figures/risk_molnup/redist/mort/redist_rawreduction_mort_nolegend_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+
+
+ggsave(fig_allmax_pctreduction_mort + theme(legend.position="bottom"), file="figures/risk_molnup/allmax/mort/allmax_pctreduction_mort_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_allmax_pctreduction_mort + theme(legend.position="none"), file="figures/risk_molnup/allmax/mort/allmax_pctreduction_mort_nolegend_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+
+ggsave(fig_redist_pctreduction_mort + theme(legend.position="bottom"), file="figures/risk_molnup/redist/mort/redist_pctreduction_mort_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
+ggsave(fig_redist_pctreduction_mort + theme(legend.position="none"), file="figures/risk_molnup/redist/mort/redist_pctreduction_mort_nolegend_risk_molnup.pdf", width=3.5, height=3.5/1.6, units="in")
 
